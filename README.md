@@ -11,40 +11,44 @@
 
 # PROGRAM 
 ```
-clc;
-clear;
-close;
-
-
-forder = 33;                     
-cutoff_frequency = 0.2;          
-window_type = "hm";              
-window_params = [0, 0];          
-
-[h, h_freq, fr] = wfir("lp", forder, [cutoff_frequency, 0], window_type, window_params);
-
-
-disp(h, "Filter Coefficients:");
-
-scf(0);
-subplot(2,1,1);
-plot(fr, abs(h_freq));
-xlabel("Normalized Frequency");
-ylabel("Magnitude");
-title("Frequency Response Magnitude of FIR Low Pass Filter");
-
-
-subplot(2,1,2);
-plot(fr, 20*log10(abs(h_freq)));
-xlabel("Normalized Frequency");
-ylabel("Magnitude (dB)");
-title("Frequency Response (dB) of FIR Low Pass Filter");
+clc ; 
+close ; 
+M=input('Enter the Odd Filter Length ='); 
+Wc=input('Enter the Digital Cut off frequency ='); 
+alpha= (M -1)/2 // Center Value 
+for n = 1:M 
+if (n ==alpha+1) 
+hd(n) = Wc/ %pi ; 
+else 
+hd(n) = sin(Wc *((n -1)-alpha)) /(((n -1)-alpha)*%pi); 
+end 
+end 
+// Rectangular Window 
+for n = 1:M 
+W(n) = 1; 
+end 
+//Windowing filter coefficients 
+h = hd.*W; 
+disp(h,'Filter Coefficients are') 
+[hzm,fr]= frmag (h,256) ; 
+subplot(2 ,1 ,1) 
+plot(2*fr, hzm) 
+xlabel( ' Normalized Digital Frequency w'); 
+ylabel( 'Magnitude '); 
+title( ' Frequency Response of  FIR LPF using Rectangular Window ') 
+hzm_dB = 20* log10 (hzm); 
+subplot (2 ,1 ,2); 
+plot(2*fr , hzm_dB); 
+xlabel( ' Normalized Digital Frequency W' ); 
+ylabel( 'Magnitude in dB'); 
+title('Frequency Response of FIR LPF using Rectangular Window');
 ```
 
 # OUTPUT
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e014cd3f-1591-4d6c-abef-c7b65435ebb3" />
+<img width="1027" height="825" alt="image" src="https://github.com/user-attachments/assets/3ddb48ce-3dff-4383-b34f-cb5b016ccca0" />
+
 
 # RESULT
 
-THE DESIGN OF LOW PASS FIR DIGITAL FILTER IS SUCCESSFULLY COMPLETED USING SCILAB.
+Thus,Design of low pass FIR digital filter using SCILAB was generated
